@@ -53,7 +53,6 @@ public class Bullet : MonoBehaviour
     // This is a built in unity function that checks when the object collides with another object
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print(collision.gameObject.name);
         if (collision.gameObject.tag == "Player")
         {
             Destroy(this.gameObject);
