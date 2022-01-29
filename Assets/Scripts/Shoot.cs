@@ -27,7 +27,7 @@ public class Shoot : MonoBehaviour
     float shootTimer;
 
     // Boolean to keep track if player can shoot or not (True means can shoot)
-    private bool canShoot;
+    public bool canShoot;
     private bool isReload;
 
     // public GameObject gunOwner;
@@ -74,22 +74,11 @@ public class Shoot : MonoBehaviour
         if (canShoot)
         {
             GameObject b = Instantiate(bullet, shotPoint.position, Quaternion.identity);
-            //if (gunOwner.tag == "Player")
-            //{
-            //    b.GetComponent<BulletScript>().target = "Enemy";
-            //    currentBullets--;
-
-            //}
-            //else if (gunOwner.tag == "Enemy")
-            //{
-            //    b.GetComponent<BulletScript>().target = "Player";
-
-            //}
+            b.tag = gameObject.tag;
 
             shootTimer = shootSpeed;
         }
         return canShoot;
-
     }
 
     // Reloads the weapon

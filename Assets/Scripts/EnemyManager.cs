@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class EnemyManager : MonoBehaviour
 {
     public List<GameObject> lightEnemies;
     public List<GameObject> darkEnemies;
 
+    public GameObject lightEnemy;
+    public GameObject darkEnemy;
+    public float spawnTimer;
+    private float timer;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        timer = spawnTimer;
     }
 
     // Update is called once per frame
@@ -28,16 +34,27 @@ public class EnemyManager : MonoBehaviour
             ActivateLightEnemies();
             DeactivateDarkEnemies();
         }
+
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            Spawn();
+            timer = spawnTimer;
+        }
     }
 
-    public void AddLightEnemy(GameObject obj)
+    public void Spawn()
     {
-        lightEnemies.Add(obj);
-    }
+        int num = Random.Range(0, 2);
+        print(num);
+        if (num == 0)
+        {
+            darkEnemies.Add(Instantiate(darkEnemy, new Vector3(0, 0, 0), Quaternion.identity));
+            return;
+        }
 
-    public void AddDarkEnemy(GameObject obj)
-    {
-        darkEnemies.Add(obj);
+        lightEnemies.Add(Instantiate(lightEnemy, new Vector3(0, 0, 0), Quaternion.identity));
+        return;
     }
 
     public void ClearLightEnemies()
@@ -63,6 +80,8 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < lightEnemies.Count; i++)
         {
             // Set enemy to normal movement and stuff
+            lightEnemies[i].GetComponent<Shoot>().enabled = true;
+            lightEnemies[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
 
@@ -71,6 +90,8 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < darkEnemies.Count; i++)
         {
             // Set enemy to normal movement and stuff
+            darkEnemies[i].GetComponent<Shoot>().enabled = true;
+            darkEnemies[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
 
@@ -79,6 +100,9 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < lightEnemies.Count; i++)
         {
             // Set enemy to not move and stuff
+            lightEnemies[i].GetComponent<Shoot>().enabled = false;
+            lightEnemies[i].GetComponent<AIDestinationSetter>().target = null;
+            lightEnemies[i].GetComponent<AIPath>().SetPath(null);
         }
     }
 
@@ -87,6 +111,9 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < darkEnemies.Count; i++)
         {
             // Set enemy to not move and stuff
+            darkEnemies[i].GetComponent<Shoot>().enabled = false;
+            darkEnemies[i].GetComponent<AIDestinationSetter>().target = null;
+            darkEnemies[i].GetComponent<AIPath>().SetPath(null);
         }
     }
 }
