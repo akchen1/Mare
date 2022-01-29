@@ -45,6 +45,7 @@ public class Detection : MonoBehaviour
             if (hit.collider != null && hit.collider.name == "Player")
             {
                 dad.setSpeed(0);
+                dad.inRange = true;
 
             }
 
@@ -54,6 +55,6 @@ public class Detection : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         dad.setSpeed(1);
-
+        dad.inRange = false;
     }
 }
