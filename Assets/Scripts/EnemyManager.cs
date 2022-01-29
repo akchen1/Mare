@@ -7,8 +7,6 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> lightEnemies;
     public List<GameObject> darkEnemies;
 
-    public StateManager sScript;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         // if in dark world
-        if (sScript.worldState == 0)
+        if (StateManager.worldState == 0)
         {
             DeactivateLightEnemies();
             ActivateDarkEnemies();

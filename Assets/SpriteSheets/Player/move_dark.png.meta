@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7c0b796938458a4428cb22483300c1b5
+guid: ef8bdc66db9d1ac43a185bafa6511575
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle_0
+      name: move_dark_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddc21457285ea414bb845cc8f51246c8
-      internalID: -647748437
+      spriteID: a6c1a866b6cb37c4b97f2bcd3dc31531
+      internalID: -2075333563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_1
+      name: move_dark_1
       rect:
         serializedVersion: 2
         x: 400
@@ -151,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53c73dd3ea418e248b83fdba9f516b02
-      internalID: -2124540074
+      spriteID: ccbc5145d09702640b323862b98d1b8e
+      internalID: 338788690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_2
+      name: move_dark_2
       rect:
         serializedVersion: 2
         x: 800
@@ -172,14 +172,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4242e0a41c1a4c4c86e08254865bda9
-      internalID: -1975344
+      spriteID: d859cc48b2c9fff4fa176973cd08a057
+      internalID: -713411603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_3
+      name: move_dark_3
       rect:
         serializedVersion: 2
         x: 1200
@@ -193,8 +193,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6af0f88f87e43cd41b4ffb0d845b87b9
-      internalID: -781342165
+      spriteID: 4812e1af2f4778948b05c1ad1b47e44d
+      internalID: 1026170895
       vertices: []
       indices: 
       edges: []
@@ -210,10 +210,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      idle_3: -781342165
-      idle_0: -647748437
-      idle_1: -2124540074
-      idle_2: -1975344
+      move_dark_0: -2075333563
+      move_dark_3: 1026170895
+      move_dark_2: -713411603
+      move_dark_1: 338788690
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

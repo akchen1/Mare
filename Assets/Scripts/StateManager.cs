@@ -8,7 +8,7 @@ public class StateManager : MonoBehaviour
     public GameObject darkWorld;
 
     // 0 = dark, 1 = light
-    public int worldState;
+    public static int worldState;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +21,12 @@ public class StateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            print("flip");
+            // Flip World
+            SwitchWorlds();
+        }
     }
 
     public void SwitchWorlds()
@@ -30,6 +35,7 @@ public class StateManager : MonoBehaviour
         {
             lightWorld.SetActive(true);
             darkWorld.SetActive(false);
+            worldState = 0;
             return;
         }
 
@@ -37,6 +43,7 @@ public class StateManager : MonoBehaviour
         {
             lightWorld.SetActive(false);
             darkWorld.SetActive(true);
+            worldState = 1;
             return;
         }
     }
