@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour
     Vector3 bounds1;
     Vector3 bounds2;
 
+    public AudioScript aScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +40,9 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < (int)Random.Range(1, 3); i++)
         {
             Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds2.y, bounds1.y), 0);
-            print(spawnPos);
+
             GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
+            obj.GetComponent<Shoot>().aScript = aScript;
 
             int num = Random.Range(0, 2);
             if (num == 0)

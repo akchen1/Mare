@@ -32,6 +32,8 @@ public class Shoot : MonoBehaviour
 
     // public GameObject gunOwner;
 
+    public AudioScript aScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,8 +75,11 @@ public class Shoot : MonoBehaviour
     {
         if (canShoot)
         {
+            aScript.PlayShoot();
+
             GameObject b = Instantiate(bullet, shotPoint.position, Quaternion.identity);
             b.tag = gameObject.tag;
+            b.GetComponent<Bullet>().aScript = aScript;
 
             shootTimer = shootSpeed;
         }

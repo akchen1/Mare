@@ -16,6 +16,8 @@ public class Bullet : MonoBehaviour
     // Default Damage for now, this needs to be changed from ProjectileShootingScript.
     public int damage;
 
+    public AudioScript aScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +48,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // Kill Player
+            aScript.PlayPlayerHit();
         }
         // if hits light enemy
         else if (collision.gameObject.tag == "LightEnemy")
@@ -54,6 +57,7 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "DarkEnemy")
             {
                 // kill
+                aScript.PlayObjectHit();
                 Destroy(collision.gameObject);
             }
         }
@@ -64,10 +68,12 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "LightEnemy")
             {
                 // kill
+                aScript.PlayObjectHit();
                 Destroy(collision.gameObject);
             }
         }
 
+        aScript.PlayObjectDestroyed();
         Destroy(this.gameObject);
     }
 
