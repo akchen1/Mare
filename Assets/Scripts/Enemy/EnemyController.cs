@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public AIPath ai;
     public Rigidbody2D rbody;
+    public CircleCollider2D coll;
     public bool inRange;
     public Shoot shoot;
     public AIDestinationSetter aiDest;
@@ -29,8 +30,9 @@ public class EnemyController : MonoBehaviour
         inRange = false;
         shoot = GetComponent<Shoot>();
         rbody = GetComponent<Rigidbody2D>();
-
+        coll = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
+        Physics2D.IgnoreLayerCollision(9, 8);
     }
 
     // Update is called once per frame
@@ -120,7 +122,7 @@ public class EnemyController : MonoBehaviour
         ai.SetPath(null);
         rbody.bodyType = RigidbodyType2D.Static;
 
-        gameObject.layer = 7;
+        //gameObject.layer = 7;
 
         if (gameObject.tag == "LightEnemy")
         {
@@ -140,7 +142,7 @@ public class EnemyController : MonoBehaviour
         ai.canMove = true;
         rbody.bodyType = RigidbodyType2D.Dynamic;
         aiDest.target = GameObject.FindGameObjectWithTag("Player").transform;
-        gameObject.layer = 0;
+        //gameObject.layer = 7;
     }
 
     public void ChangeAnimationState(string newState)
