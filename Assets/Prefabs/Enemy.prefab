@@ -419,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ai: {fileID: 3163928829358969843}
   rbody: {fileID: 1591517599609694316}
+  coll: {fileID: 3163928829358969841}
   inRange: 0
   shoot: {fileID: 3163928829358969847}
   aiDest: {fileID: 3163928829358969852}
