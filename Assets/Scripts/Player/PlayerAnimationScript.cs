@@ -100,7 +100,7 @@ public class PlayerAnimationScript : MonoBehaviour
             }
         }
 
-        if (rbody.velocity.y < 0)
+        else if (rbody.velocity.y < 0)
         {
             // Look Down
             if (StateManager.worldState == 0)

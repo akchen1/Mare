@@ -29,6 +29,12 @@ public class InGameUIScript : MonoBehaviour
 
     private bool fadeIn;
 
+    Transform player;
+    public float scale;
+    EdgeCollider2D bounds;
+    float boundsRadius;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,11 +47,17 @@ public class InGameUIScript : MonoBehaviour
         cd4.GetComponent<Image>().sprite = filled;
         cd5.GetComponent<Image>().sprite = filled;
 
+
         reset.GetComponent<TextMeshProUGUI>().alpha = 0f;
         reset.GetComponent<Button>().interactable = false;
         menu.GetComponent<TextMeshProUGUI>().alpha = 0f;
         menu.GetComponent<Button>().interactable = false;
         finalScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
+
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        bounds = GameObject.FindGameObjectWithTag("Bounds").GetComponent<EdgeCollider2D>();
+        boundsRadius = bounds.bounds.extents.x;
+
     }
 
     // Update is called once per frame
@@ -116,7 +128,21 @@ public class InGameUIScript : MonoBehaviour
             menu.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(menu.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
             finalScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
         }
-        
+
+        float radius = Mathf.Sqrt(player.position.x * player.position.x + player.position.y * player.position.y);
+        if (radius/boundsRadius <= 0.4)
+        {
+            scale = 1;
+        } else if (radius/boundsRadius <= 0.8)
+        {
+            scale = 0.5f;
+        } else
+        {
+            scale = 0;
+        }
+
+        score += Time.deltaTime * scale;
+
         scoreText.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
         finalScore.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
     }
