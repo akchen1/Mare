@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InGameUIScript : MonoBehaviour
 {
@@ -20,16 +21,31 @@ public class InGameUIScript : MonoBehaviour
     public GameObject scoreText;
     public float score;
 
+    public bool alive;
+
+    public GameObject reset;
+    public GameObject menu;
+    public GameObject finalScore;
+
+    private bool fadeIn;
+
     // Start is called before the first frame update
     void Start()
     {
         timer = 0f;
-
+        alive = true;
+        fadeIn = false;
         cd1.GetComponent<Image>().sprite = filled;
         cd2.GetComponent<Image>().sprite = filled;
         cd3.GetComponent<Image>().sprite = filled;
         cd4.GetComponent<Image>().sprite = filled;
         cd5.GetComponent<Image>().sprite = filled;
+
+        reset.GetComponent<TextMeshProUGUI>().alpha = 0f;
+        reset.GetComponent<Button>().interactable = false;
+        menu.GetComponent<TextMeshProUGUI>().alpha = 0f;
+        menu.GetComponent<Button>().interactable = false;
+        finalScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
     }
 
     // Update is called once per frame
@@ -89,13 +105,30 @@ public class InGameUIScript : MonoBehaviour
             cd5.GetComponent<Image>().sprite = empty;
         }
 
-        score += Time.deltaTime;
+        if (alive)
+        {
+            score += Time.deltaTime;
+        }
+        
+        if (fadeIn)
+        {
+            reset.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(reset.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+            menu.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(menu.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+            finalScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+        }
+        
         scoreText.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
+        finalScore.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
     }
 
     public void Cast()
     {
         timer = 0f;
+        Swap();
+    }
+
+    public void Swap()
+    {
         if (StateManager.worldState == 0)
         {
             cd1.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -116,5 +149,39 @@ public class InGameUIScript : MonoBehaviour
 
             scoreText.GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
         }
+    }
+
+    public void Hide()
+    {
+        cd1.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        cd2.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        cd3.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        cd4.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        cd5.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+
+        scoreText.GetComponent<TextMeshProUGUI>().CrossFadeAlpha(0f, 1f, false);
+    }
+
+    public void Show()
+    {
+        reset.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
+        menu.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
+
+        finalScore.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
+
+        fadeIn = true;
+
+        reset.GetComponent<Button>().interactable = true;
+        menu.GetComponent<Button>().interactable = true;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

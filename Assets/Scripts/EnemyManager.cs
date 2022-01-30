@@ -14,6 +14,8 @@ public class EnemyManager : MonoBehaviour
 
     public AudioScript aScript;
 
+    public bool canSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +24,15 @@ public class EnemyManager : MonoBehaviour
         Transform[] bounds = gameObject.GetComponentsInChildren<Transform>();
         bounds1 = bounds[0].position;
         bounds2 = bounds[1].position;
+
+        canSpawn = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (timer <= 0 && canSpawn)
         {
             timer = spawnTimer;
             Spawn();
