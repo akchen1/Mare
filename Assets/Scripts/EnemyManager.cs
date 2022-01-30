@@ -5,9 +5,6 @@ using Pathfinding;
 
 public class EnemyManager : MonoBehaviour
 {
-    public List<GameObject> lightEnemies;
-    public List<GameObject> darkEnemies;
-
     public GameObject enemy;
     public float spawnTimer;
     private float timer;
@@ -38,24 +35,26 @@ public class EnemyManager : MonoBehaviour
 
     public void Spawn()
     {
-        Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds1.y, bounds2.y), 0);
-        GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
-
-        int num = Random.Range(0, 2);
-        if (num == 0)
+        for (int i = 0; i < (int)Random.Range(1, 3); i++)
         {
+            Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds2.y, bounds1.y), 0);
+            print(spawnPos);
+            GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
 
-            obj.GetComponent<EnemyController>().SetType("DarkEnemy");
-            darkEnemies.Add(obj);
+            int num = Random.Range(0, 2);
+            if (num == 0)
+            {
+
+                obj.GetComponent<EnemyController>().SetType("DarkEnemy");
+
+                AstarPath.active.Scan();
+                return;
+            }
+
+            obj.GetComponent<EnemyController>().SetType("LightEnemy");
 
             AstarPath.active.Scan();
-            return;
         }
-
-        obj.GetComponent<EnemyController>().SetType("LightEnemy");
-        lightEnemies.Add(obj);
-
-        AstarPath.active.Scan();
         return;
     }
 
