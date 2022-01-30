@@ -461,8 +461,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phase_switch: {fileID: 8300000, guid: c3ed0aa940b46904e83200288d72579a, type: 3}
   shoot: {fileID: 8300000, guid: e9d8ce6e91e7e394daf80d06ba0aeea5, type: 3}
-  enemy_hit: {fileID: 8300000, guid: a4e01a0dedfe9464faa4f3067373bdfd, type: 3}
-  player_hit: {fileID: 8300000, guid: ce40fafcdaab5804fba51d6b397114ae, type: 3}
+  enemy_hit: {fileID: 8300000, guid: 8c853459e0811f04c9bb92d2a568dae3, type: 3}
+  player_hit: {fileID: 8300000, guid: c76f57d18dbc874459278eb942451480, type: 3}
   light_theme: {fileID: 8300000, guid: 042a3d88e37f1164da4f3d76d54da49f, type: 3}
   dark_theme: {fileID: 8300000, guid: d1f8e87e259de194fafe17907a17080e, type: 3}
   game_over: {fileID: 8300000, guid: 8ff8a18975c3795498aa7eca20371cd3, type: 3}
