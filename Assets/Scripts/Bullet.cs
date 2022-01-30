@@ -98,8 +98,8 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
-                uiScript.score += 5f;
-                Destroy(collision.gameObject);
+                uiScript.score += 5f * uiScript.scale;
+                //Destroy(collision.gameObject);
                 collision.gameObject.GetComponent<EnemyController>().isDead = true;
                 aScript.PlayObjectDestroyed();
                 Destroy(this.gameObject);
@@ -114,13 +114,16 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
-                uiScript.score += 5f;
-                Destroy(collision.gameObject);
+                uiScript.score += 5f * uiScript.scale;
+                //Destroy(collision.gameObject);
                 collision.gameObject.GetComponent<EnemyController>().isDead = true;
                 aScript.PlayObjectDestroyed();
                 Destroy(this.gameObject);
                 //Destroy(collision.gameObject);
             }
+        } else
+        {
+            Destroy(this.gameObject);
         }
 
         

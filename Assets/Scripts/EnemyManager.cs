@@ -8,6 +8,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemy;
     public float spawnTimer;
     private float timer;
+    private float clockTime;
 
     Vector3 bounds1;
     Vector3 bounds2;
@@ -18,20 +19,28 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         timer = spawnTimer;
-
+        clockTime = 30;
         Transform[] bounds = gameObject.GetComponentsInChildren<Transform>();
         bounds1 = bounds[0].position;
         bounds2 = bounds[1].position;
+        Spawn();
     }
 
     // Update is called once per frame
     void Update()
     {
+        clockTime -= Time.deltaTime;
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
             timer = spawnTimer;
             Spawn();
+        }
+
+        if (clockTime <= 0 && spawnTimer > 2)
+        {
+            spawnTimer -= 1;
+            clockTime = 30;
         }
     }
 
