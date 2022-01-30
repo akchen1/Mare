@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3163928828817052596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.13, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 4.8, z: 0}
+  m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3163928829358969853}
@@ -424,6 +424,7 @@ MonoBehaviour:
   shoot: {fileID: 3163928829358969847}
   aiDest: {fileID: 3163928829358969852}
   isFrozen: 0
+  isDead: 0
   animator: {fileID: 3135077741036389400}
 --- !u!114 &3163928829358969847
 MonoBehaviour:
