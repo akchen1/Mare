@@ -20,6 +20,11 @@ public class InGameUIScript : MonoBehaviour
     public GameObject scoreText;
     public float score;
 
+    Transform player;
+    public float scale;
+    EdgeCollider2D bounds;
+    float boundsRadius;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,10 @@ public class InGameUIScript : MonoBehaviour
         cd3.GetComponent<Image>().sprite = filled;
         cd4.GetComponent<Image>().sprite = filled;
         cd5.GetComponent<Image>().sprite = filled;
+
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        bounds = GameObject.FindGameObjectWithTag("Bounds").GetComponent<EdgeCollider2D>();
+        boundsRadius = bounds.bounds.extents.x;
     }
 
     // Update is called once per frame
@@ -89,7 +98,19 @@ public class InGameUIScript : MonoBehaviour
             cd5.GetComponent<Image>().sprite = empty;
         }
 
-        score += Time.deltaTime;
+        float radius = Mathf.Sqrt(player.position.x * player.position.x + player.position.y * player.position.y);
+        if (radius/boundsRadius <= 0.4)
+        {
+            scale = 1;
+        } else if (radius/boundsRadius <= 0.8)
+        {
+            scale = 0.5f;
+        } else
+        {
+            scale = 0;
+        }
+
+        score += Time.deltaTime * scale;
         scoreText.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
     }
 
