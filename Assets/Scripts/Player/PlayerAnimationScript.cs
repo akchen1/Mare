@@ -6,10 +6,25 @@ public class PlayerAnimationScript : MonoBehaviour
 {
 
     Rigidbody2D rbody;
-    private const string PLAYER_LIGHT_IDLE = "player_idle";
     private const string PLAYER_DARK_IDLE = "player_dark_idle";
-    private const string PLAYER_LIGHT_MOVE = "player_move";
+    private const string PLAYER_DARK_IDLE_BACK = "player_dark_idle_back";
+    private const string PLAYER_DARK_IDLE_LEFT = "player_dark_idle_left";
+    private const string PLAYER_DARK_IDLE_RIGHT = "player_dark_idle_right";
+
     private const string PLAYER_DARK_MOVE = "player_dark_move";
+    private const string PLAYER_DARK_MOVE_BACK = "player_dark_move_back";
+    private const string PLAYER_DARK_MOVE_LEFT = "player_dark_move_left";
+    private const string PLAYER_DARK_MOVE_RIGHT = "player_dark_move_right";
+
+    private const string PLAYER_LIGHT_IDLE = "player_idle";
+    private const string PLAYER_LIGHT_IDLE_BACK = "player_idle_back";
+    private const string PLAYER_LIGHT_IDLE_LEFT = "player_idle_left";
+    private const string PLAYER_LIGHT_IDLE_RIGHT = "player_idle_right";
+
+    private const string PLAYER_LIGHT_MOVE = "player_move";
+    private const string PLAYER_LIGHT_MOVE_BACK = "player_move_back";
+    private const string PLAYER_LIGHT_MOVE_LEFT = "player_move_left";
+    private const string PLAYER_LIGHT_MOVE_RIGHT = "player_move_right";
 
     private string currentAnimation;
 
@@ -31,11 +46,11 @@ public class PlayerAnimationScript : MonoBehaviour
             // Look Left
             if (StateManager.worldState == 0)
             {
-                ChangeAnimationState(PLAYER_DARK_MOVE);
+                ChangeAnimationState(PLAYER_DARK_MOVE_LEFT);
             }
             else
             {
-                ChangeAnimationState(PLAYER_LIGHT_MOVE);
+                ChangeAnimationState(PLAYER_LIGHT_MOVE_LEFT);
             }
             
         }
@@ -44,11 +59,11 @@ public class PlayerAnimationScript : MonoBehaviour
             // Look Right
             if (StateManager.worldState == 0)
             {
-                ChangeAnimationState(PLAYER_DARK_MOVE);
+                ChangeAnimationState(PLAYER_DARK_MOVE_RIGHT);
             }
             else
             {
-                ChangeAnimationState(PLAYER_LIGHT_MOVE);
+                ChangeAnimationState(PLAYER_LIGHT_MOVE_RIGHT);
             }
         }
 
@@ -69,11 +84,11 @@ public class PlayerAnimationScript : MonoBehaviour
             // Look Up
             if (StateManager.worldState == 0)
             {
-                ChangeAnimationState(PLAYER_DARK_MOVE);
+                ChangeAnimationState(PLAYER_DARK_MOVE_BACK);
             }
             else
             {
-                ChangeAnimationState(PLAYER_LIGHT_MOVE);
+                ChangeAnimationState(PLAYER_LIGHT_MOVE_BACK);
             }
         }
 

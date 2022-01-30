@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LightEnemy
   - DarkEnemy
+  - UI
   layers:
   - Default
   - TransparentFX

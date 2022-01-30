@@ -26,12 +26,16 @@ public class Bullet : MonoBehaviour
     public bool initate_finish = false;
 
     public AudioScript aScript;
+    public InGameUIScript uiScript;
+
     // Start is called before the first frame update
     void Start()
     {
         // Find rigidbody
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        uiScript = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIScript>();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Transform playerLocation = player.transform;
@@ -92,6 +96,7 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
+                uiScript.score += 5f;
                 Destroy(collision.gameObject);
             }
         }
@@ -103,6 +108,7 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
+                uiScript.score += 5f;
                 Destroy(collision.gameObject);
             }
         }
