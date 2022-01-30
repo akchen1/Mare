@@ -7,14 +7,13 @@ public class PlayerAnimationState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("helelo");
-
         PlayerAnimationScript animScript = animator.gameObject.GetComponent<PlayerAnimationScript>();
         for (int i = 0; i < animScript.stateNames.Length; i++)
         {
             if (animator.GetCurrentAnimatorStateInfo(layerIndex).IsName(animScript.stateNames[i]))
             {
                 animScript.currentAnimation = animScript.stateNames[i];
+                break;
             }
         }
     }
