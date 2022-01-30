@@ -21,7 +21,7 @@ public class InGameUIScript : MonoBehaviour
     public GameObject scoreText;
     public float score;
 
-    public bool alive;
+    public static bool alive;
 
     public GameObject reset;
     public GameObject menu;

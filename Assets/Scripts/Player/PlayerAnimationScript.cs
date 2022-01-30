@@ -74,6 +74,10 @@ public class PlayerAnimationScript : MonoBehaviour
             cam.transform.position = new Vector3(x, y, -10);
         }
 
+        if (!InGameUIScript.alive)
+        {
+            return;
+        }
         if (rbody.velocity.x < 0)
         {
             // Look Left
@@ -173,7 +177,7 @@ public class PlayerAnimationScript : MonoBehaviour
         rbody.constraints = RigidbodyConstraints2D.FreezeAll;
         poly.enabled = false;
         eScript.canSpawn = false;
-        iScript.alive = false;
+        InGameUIScript.alive = false;
         iScript.Hide();
         lScript.NoLight();
         x = transform.position.x;

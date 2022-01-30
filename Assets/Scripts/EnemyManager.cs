@@ -17,16 +17,20 @@ public class EnemyManager : MonoBehaviour
 
     public bool canSpawn;
 
+    private int numSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
         timer = spawnTimer;
-        clockTime = 30;
+        clockTime = 20;
         Transform[] bounds = gameObject.GetComponentsInChildren<Transform>();
         bounds1 = bounds[0].position;
         bounds2 = bounds[1].position;
         canSpawn = true;
+        numSpawn = 2;
         Spawn();
+
     }
 
     // Update is called once per frame
@@ -43,13 +47,14 @@ public class EnemyManager : MonoBehaviour
         if (clockTime <= 0 && spawnTimer > 2)
         {
             spawnTimer -= 1;
-            clockTime = 30;
+            clockTime = 20;
+            numSpawn += 1;
         }
     }
 
     public void Spawn()
     {
-        for (int i = 0; i < (int)Random.Range(1, 3); i++)
+        for (int i = 0; i < (int)Random.Range(1, numSpawn); i++)
         {
             Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds2.y, bounds1.y), 0);
 
@@ -62,22 +67,18 @@ public class EnemyManager : MonoBehaviour
 
                 obj.GetComponent<EnemyController>().SetType("DarkEnemy");
                 obj.layer = 9;
-
-                AstarPath.active.Scan();
                 return;
             }
 
             obj.GetComponent<EnemyController>().SetType("LightEnemy");
             obj.layer = 8;
-
-            AstarPath.active.Scan();
         }
         return;
     }
 
     public void ActivateLightEnemies()
     {
-        print("ativate light");
+        print("activate light");
         GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
         
         if (list.Length > 0)
