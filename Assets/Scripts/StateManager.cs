@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
-    public GameObject lightWorld;
-    public GameObject darkWorld;
-
     public EnemyManager eScript;
 
     // 0 = dark, 1 = light
     public static int worldState;
 
+    public Camera cam;
+    public GameObject lights;
+
     // Start is called before the first frame update
     void Start()
     {
         worldState = 1;
-        lightWorld.SetActive(true);
-        darkWorld.SetActive(false);
+        cam.backgroundColor = Color.white;
+        lights.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,9 +35,9 @@ public class StateManager : MonoBehaviour
         if (worldState == 0)
         {
             // Switch to light
-            lightWorld.SetActive(true);
-            darkWorld.SetActive(false);
             worldState = 1;
+            cam.backgroundColor = Color.white;
+            lights.SetActive(false);
 
             // Activate opposite enemies
             eScript.ActivateLightEnemies();
@@ -50,9 +50,9 @@ public class StateManager : MonoBehaviour
         else if (worldState == 1)
         {
             // Switch to dark
-            lightWorld.SetActive(false);
-            darkWorld.SetActive(true);
             worldState = 0;
+            cam.backgroundColor = Color.black;
+            lights.SetActive(true);
 
             // Activate opposite enemies
             eScript.ActivateDarkEnemies();
