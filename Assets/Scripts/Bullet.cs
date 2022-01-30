@@ -13,11 +13,6 @@ public class Bullet : MonoBehaviour
     // Speed of bullet
     public int bulletSpeed = 20;
 
-    // target tag
-    public string target;
-
-    public bool hasAnim;
-
     // Default Damage for now, this needs to be changed from ProjectileShootingScript.
     public int damage;
 
@@ -33,15 +28,10 @@ public class Bullet : MonoBehaviour
         Transform playerLocation = player.transform;
         shootDirection = new Vector3(playerLocation.position.x, playerLocation.position.y, 0) - transform.position;
         
-
         shootDirection.Normalize();
 
         // Set velocity to shoot bullet
         rbody.velocity = shootDirection * bulletSpeed;
-        //if (target == "Player" && shootDirection.x < 0)
-        //{
-        //    flip();
-        //}
     }
 
     // Update is called once per frame
@@ -55,9 +45,30 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Destroy(this.gameObject);
-
+            // Kill Player
         }
+        // if hits light enemy
+        else if (collision.gameObject.tag == "LightEnemy")
+        {
+            // check if opposite side
+            if (this.gameObject.tag == "DarkEnemy")
+            {
+                // kill
+                Destroy(collision.gameObject);
+            }
+        }
+        // if hits dark enemy
+        else if (collision.gameObject.tag == "DarkEnemy")
+        {
+            // check if opposite side
+            if (this.gameObject.tag == "LightEnemy")
+            {
+                // kill
+                Destroy(collision.gameObject);
+            }
+        }
+
+        Destroy(this.gameObject);
     }
 
 

@@ -1,92 +1,120 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class EnemyManager : MonoBehaviour
 {
-    public List<GameObject> lightEnemies;
-    public List<GameObject> darkEnemies;
+    public GameObject enemy;
+    public float spawnTimer;
+    private float timer;
+
+    Vector3 bounds1;
+    Vector3 bounds2;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        timer = spawnTimer;
+
+        Transform[] bounds = gameObject.GetComponentsInChildren<Transform>();
+        bounds1 = bounds[0].position;
+        bounds2 = bounds[1].position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if in dark world
-        if (StateManager.worldState == 0)
+        timer -= Time.deltaTime;
+        if (timer <= 0)
         {
-            DeactivateLightEnemies();
-            ActivateDarkEnemies();
-        }
-        // if in light world
-        else
-        {
-            ActivateLightEnemies();
-            DeactivateDarkEnemies();
+            timer = spawnTimer;
+            Spawn();
         }
     }
 
-    public void AddLightEnemy(GameObject obj)
+    public void Spawn()
     {
-        lightEnemies.Add(obj);
-    }
-
-    public void AddDarkEnemy(GameObject obj)
-    {
-        darkEnemies.Add(obj);
-    }
-
-    public void ClearLightEnemies()
-    {
-        for (int i = 0; i < lightEnemies.Count; i++)
+        for (int i = 0; i < (int)Random.Range(1, 3); i++)
         {
-            Destroy(lightEnemies[i]);
-        }
-        lightEnemies.Clear();
-    }
+            Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds2.y, bounds1.y), 0);
+            print(spawnPos);
+            GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
 
-    public void ClearDarkEnemies()
-    {
-        for (int i = 0; i < darkEnemies.Count; i++)
-        {
-            Destroy(darkEnemies[i]);
+            int num = Random.Range(0, 2);
+            if (num == 0)
+            {
+
+                obj.GetComponent<EnemyController>().SetType("DarkEnemy");
+
+                AstarPath.active.Scan();
+                return;
+            }
+
+            obj.GetComponent<EnemyController>().SetType("LightEnemy");
+
+            AstarPath.active.Scan();
         }
-        darkEnemies.Clear();
+        return;
     }
 
     public void ActivateLightEnemies()
     {
-        for (int i = 0; i < lightEnemies.Count; i++)
+        print("ativate light");
+        GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
+        
+        if (list.Length > 0)
         {
-            // Set enemy to normal movement and stuff
+            for (int i = 0; i < list.Length; i++)
+            {
+                // Set enemy to normal movement and stuff
+                list[i].GetComponent<EnemyController>().Unfreeze();
+            }
         }
     }
 
     public void ActivateDarkEnemies()
     {
-        for (int i = 0; i < darkEnemies.Count; i++)
+        print("activate dark");
+        GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to normal movement and stuff
+            for (int i = 0; i < list.Length; i++)
+            {
+                // Set enemy to normal movement and stuff
+                list[i].GetComponent<EnemyController>().Unfreeze();
+            }
         }
     }
-
+    
     public void DeactivateLightEnemies()
     {
-        for (int i = 0; i < lightEnemies.Count; i++)
+        print("Deactivate light");
+        GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to not move and stuff
+            for (int i = 0; i < list.Length; i++)
+            {
+                // Set enemy to not move and stuff
+                list[i].GetComponent<EnemyController>().Freeze();
+            }
         }
     }
 
     public void DeactivateDarkEnemies()
     {
-        for (int i = 0; i < darkEnemies.Count; i++)
+        print("Deactivate dark");
+        GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to not move and stuff
+            for (int i = 0; i < list.Length; i++)
+            {
+                // Set enemy to not move and stuff
+                list[i].GetComponent<EnemyController>().Freeze();
+            }
         }
     }
 }
