@@ -83,6 +83,8 @@ public class Bullet : MonoBehaviour
         {
             // Kill Player
             aScript.PlayPlayerHit();
+            aScript.PlayObjectDestroyed();
+            Destroy(this.gameObject);
         }
         // if hits light enemy
         else if (collision.gameObject.tag == "LightEnemy")
@@ -92,7 +94,10 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
-                Destroy(collision.gameObject);
+                collision.gameObject.GetComponent<EnemyController>().isDead = true;
+                aScript.PlayObjectDestroyed();
+                Destroy(this.gameObject);
+                //Destroy(collision.gameObject);
             }
         }
         // if hits dark enemy
@@ -103,12 +108,14 @@ public class Bullet : MonoBehaviour
             {
                 // kill
                 aScript.PlayObjectHit();
-                Destroy(collision.gameObject);
+                collision.gameObject.GetComponent<EnemyController>().isDead = true;
+                aScript.PlayObjectDestroyed();
+                Destroy(this.gameObject);
+                //Destroy(collision.gameObject);
             }
         }
 
-        aScript.PlayObjectDestroyed();
-        Destroy(this.gameObject);
+        
     }
 
 
