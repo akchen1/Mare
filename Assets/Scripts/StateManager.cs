@@ -15,6 +15,7 @@ public class StateManager : MonoBehaviour
     public GameObject lights;
 
     public AudioScript aScript;
+    public InGameUIScript uiScript;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class StateManager : MonoBehaviour
         {
             // Flip World
             SwitchWorlds();
+            uiScript.Cast();
             timer = cooldown;
         }
     }
