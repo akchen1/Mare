@@ -26,7 +26,8 @@ public class PlayerAnimationScript : MonoBehaviour
     private const string PLAYER_LIGHT_MOVE_LEFT = "player_move_left";
     private const string PLAYER_LIGHT_MOVE_RIGHT = "player_move_right";
 
-    private string currentAnimation;
+    public string currentAnimation;
+    public string[] stateNames;
 
     Animator animator;
 
@@ -36,6 +37,9 @@ public class PlayerAnimationScript : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentAnimation = PLAYER_LIGHT_IDLE;
+        stateNames = new string[] {PLAYER_DARK_IDLE, PLAYER_DARK_IDLE_BACK, PLAYER_DARK_IDLE_LEFT, PLAYER_DARK_IDLE_RIGHT,
+            PLAYER_DARK_MOVE, PLAYER_DARK_MOVE_BACK, PLAYER_DARK_MOVE_LEFT, PLAYER_DARK_MOVE_RIGHT, PLAYER_LIGHT_IDLE, PLAYER_LIGHT_IDLE_BACK, PLAYER_LIGHT_IDLE_LEFT,
+            PLAYER_LIGHT_IDLE_RIGHT, PLAYER_LIGHT_MOVE, PLAYER_LIGHT_MOVE_BACK, PLAYER_LIGHT_MOVE_LEFT, PLAYER_LIGHT_MOVE_RIGHT };
     }
 
     // Update is called once per frame
@@ -94,15 +98,20 @@ public class PlayerAnimationScript : MonoBehaviour
 
         if (rbody.velocity == Vector2.zero)
         {
+            animator.SetBool("stop", true);
             // No Movement
-            if (StateManager.worldState == 0)
-            {
-                ChangeAnimationState(PLAYER_DARK_IDLE);
-            }
-            else
-            {
-                ChangeAnimationState(PLAYER_LIGHT_IDLE);
-            }
+            //if (StateManager.worldState == 0)
+            //{
+                
+            //    ChangeAnimationState(PLAYER_DARK_IDLE);
+            //}
+            //else
+            //{
+            //    ChangeAnimationState(PLAYER_LIGHT_IDLE);
+            //}
+        } else
+        {
+            animator.SetBool("stop", false);
         }
     }
 
