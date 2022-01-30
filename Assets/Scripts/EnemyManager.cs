@@ -47,76 +47,74 @@ public class EnemyManager : MonoBehaviour
 
             obj.GetComponent<EnemyController>().SetType("DarkEnemy");
             darkEnemies.Add(obj);
+
+            AstarPath.active.Scan();
             return;
         }
 
         obj.GetComponent<EnemyController>().SetType("LightEnemy");
         lightEnemies.Add(obj);
+
+        AstarPath.active.Scan();
         return;
     }
 
     public void ActivateLightEnemies()
     {
+        print("ativate light");
         GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
-
+        
         if (list.Length > 0)
         {
-            for (int i = 0; i < list.Length - 1; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to normal movement and stuff
-                list[i].GetComponent<Shoot>().enabled = true;
-                list[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
-                list[i].GetComponent<EnemyController>().isFrozen = false;
+                list[i].GetComponent<EnemyController>().Unfreeze();
             }
         }
     }
 
     public void ActivateDarkEnemies()
     {
+        print("activate dark");
         GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
 
         if (list.Length > 0)
         {
-            for (int i = 0; i < list.Length - 1; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to normal movement and stuff
-                list[i].GetComponent<Shoot>().enabled = true;
-                list[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
-                list[i].GetComponent<EnemyController>().isFrozen = false;
+                list[i].GetComponent<EnemyController>().Unfreeze();
             }
         }
     }
-
+    
     public void DeactivateLightEnemies()
     {
+        print("Deactivate light");
         GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
 
         if (list.Length > 0)
         {
-            for (int i = 0; i < list.Length - 1; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to not move and stuff
-                list[i].GetComponent<Shoot>().enabled = false;
-                list[i].GetComponent<AIDestinationSetter>().target = null;
-                list[i].GetComponent<AIPath>().SetPath(null);
-                list[i].GetComponent<EnemyController>().isFrozen = true;
+                list[i].GetComponent<EnemyController>().Freeze();
             }
         }
     }
 
     public void DeactivateDarkEnemies()
     {
+        print("Deactivate dark");
         GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
 
         if (list.Length > 0)
         {
-            for (int i = 0; i < list.Length - 1; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to not move and stuff
-                list[i].GetComponent<Shoot>().enabled = false;
-                list[i].GetComponent<AIDestinationSetter>().target = null;
-                list[i].GetComponent<AIPath>().SetPath(null);
-                list[i].GetComponent<EnemyController>().isFrozen = true;
+                list[i].GetComponent<EnemyController>().Freeze();
             }
         }
     }

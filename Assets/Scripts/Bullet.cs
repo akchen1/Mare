@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Destroy(this.gameObject);
+            // Kill Player
         }
         // if hits light enemy
         else if (collision.gameObject.tag == "LightEnemy")
@@ -54,7 +54,6 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "DarkEnemy")
             {
                 // kill
-                Destroy(this.gameObject);
                 Destroy(collision.gameObject);
             }
         }
@@ -65,10 +64,11 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "LightEnemy")
             {
                 // kill
-                Destroy(this.gameObject);
                 Destroy(collision.gameObject);
             }
         }
+
+        Destroy(this.gameObject);
     }
 
 
