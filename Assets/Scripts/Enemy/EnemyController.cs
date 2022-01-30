@@ -12,13 +12,16 @@ public class EnemyController : MonoBehaviour
     public Shoot shoot;
     public AIDestinationSetter aiDest;
     public bool isFrozen;
+    public bool isDead;
 
     private const string DARK_ENEMY_MOVE = "dark_enemy_move";
     private const string DARK_ENEMY_ATTACK = "dark_enemy_attack";
     private const string DARK_ENEMY_FROZEN = "dark_enemy_frozen";
+    private const string DARK_ENEMY_DEATH = "light_enemy_death";
     private const string LIGHT_ENEMY_MOVE = "light_enemy_move";
     private const string LIGHT_ENEMY_ATTACK = "light_enemy_attack";
     private const string LIGHT_ENEMY_FROZEN = "light_enemy_frozen";
+    private const string LIGHT_ENEMY_DEATH = "dark_enemy_death";
 
     private string currentAnimation;
 
@@ -38,6 +41,19 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            if (gameObject.tag == "DarkEnemy")
+            {
+                ChangeAnimationState(DARK_ENEMY_DEATH);
+            }
+            else if (gameObject.tag == "LightEnemy")
+            {
+                ChangeAnimationState(LIGHT_ENEMY_DEATH);
+            }
+            return;
+        }
+
         if (isFrozen)
         {
             if (gameObject.tag == "DarkEnemy")
