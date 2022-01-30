@@ -8,112 +8,116 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> lightEnemies;
     public List<GameObject> darkEnemies;
 
-    public GameObject lightEnemy;
-    public GameObject darkEnemy;
+    public GameObject enemy;
     public float spawnTimer;
     private float timer;
+
+    Vector3 bounds1;
+    Vector3 bounds2;
 
     // Start is called before the first frame update
     void Start()
     {
         timer = spawnTimer;
+
+        Transform[] bounds = gameObject.GetComponentsInChildren<Transform>();
+        bounds1 = bounds[0].position;
+        bounds2 = bounds[1].position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if in dark world
-        if (StateManager.worldState == 0)
-        {
-            DeactivateLightEnemies();
-            ActivateDarkEnemies();
-        }
-        // if in light world
-        else
-        {
-            ActivateLightEnemies();
-            DeactivateDarkEnemies();
-        }
-
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            Spawn();
             timer = spawnTimer;
+            Spawn();
         }
     }
 
     public void Spawn()
     {
+        Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds1.y, bounds2.y), 0);
+        GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
+
         int num = Random.Range(0, 2);
-        print(num);
         if (num == 0)
         {
-            darkEnemies.Add(Instantiate(darkEnemy, new Vector3(0, 0, 0), Quaternion.identity));
+
+            obj.GetComponent<EnemyController>().SetType("DarkEnemy");
+            darkEnemies.Add(obj);
             return;
         }
 
-        lightEnemies.Add(Instantiate(lightEnemy, new Vector3(0, 0, 0), Quaternion.identity));
+        obj.GetComponent<EnemyController>().SetType("LightEnemy");
+        lightEnemies.Add(obj);
         return;
-    }
-
-    public void ClearLightEnemies()
-    {
-        for (int i = 0; i < lightEnemies.Count; i++)
-        {
-            Destroy(lightEnemies[i]);
-        }
-        lightEnemies.Clear();
-    }
-
-    public void ClearDarkEnemies()
-    {
-        for (int i = 0; i < darkEnemies.Count; i++)
-        {
-            Destroy(darkEnemies[i]);
-        }
-        darkEnemies.Clear();
     }
 
     public void ActivateLightEnemies()
     {
-        for (int i = 0; i < lightEnemies.Count; i++)
+        GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to normal movement and stuff
-            lightEnemies[i].GetComponent<Shoot>().enabled = true;
-            lightEnemies[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
+            for (int i = 0; i < list.Length - 1; i++)
+            {
+                // Set enemy to normal movement and stuff
+                list[i].GetComponent<Shoot>().enabled = true;
+                list[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
+                list[i].GetComponent<EnemyController>().isFrozen = false;
+            }
         }
     }
 
     public void ActivateDarkEnemies()
     {
-        for (int i = 0; i < darkEnemies.Count; i++)
+        GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to normal movement and stuff
-            darkEnemies[i].GetComponent<Shoot>().enabled = true;
-            darkEnemies[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
+            for (int i = 0; i < list.Length - 1; i++)
+            {
+                // Set enemy to normal movement and stuff
+                list[i].GetComponent<Shoot>().enabled = true;
+                list[i].GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag("Player").transform;
+                list[i].GetComponent<EnemyController>().isFrozen = false;
+            }
         }
     }
 
     public void DeactivateLightEnemies()
     {
-        for (int i = 0; i < lightEnemies.Count; i++)
+        GameObject[] list = GameObject.FindGameObjectsWithTag("LightEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to not move and stuff
-            lightEnemies[i].GetComponent<Shoot>().enabled = false;
-            lightEnemies[i].GetComponent<AIDestinationSetter>().target = null;
-            lightEnemies[i].GetComponent<AIPath>().SetPath(null);
+            for (int i = 0; i < list.Length - 1; i++)
+            {
+                // Set enemy to not move and stuff
+                list[i].GetComponent<Shoot>().enabled = false;
+                list[i].GetComponent<AIDestinationSetter>().target = null;
+                list[i].GetComponent<AIPath>().SetPath(null);
+                list[i].GetComponent<EnemyController>().isFrozen = true;
+            }
         }
     }
 
     public void DeactivateDarkEnemies()
     {
-        for (int i = 0; i < darkEnemies.Count; i++)
+        GameObject[] list = GameObject.FindGameObjectsWithTag("DarkEnemy");
+
+        if (list.Length > 0)
         {
-            // Set enemy to not move and stuff
-            darkEnemies[i].GetComponent<Shoot>().enabled = false;
-            darkEnemies[i].GetComponent<AIDestinationSetter>().target = null;
-            darkEnemies[i].GetComponent<AIPath>().SetPath(null);
+            for (int i = 0; i < list.Length - 1; i++)
+            {
+                // Set enemy to not move and stuff
+                list[i].GetComponent<Shoot>().enabled = false;
+                list[i].GetComponent<AIDestinationSetter>().target = null;
+                list[i].GetComponent<AIPath>().SetPath(null);
+                list[i].GetComponent<EnemyController>().isFrozen = true;
+            }
         }
     }
 }
