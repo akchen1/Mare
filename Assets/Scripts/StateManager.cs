@@ -8,9 +8,13 @@ public class StateManager : MonoBehaviour
 
     // 0 = dark, 1 = light
     public static int worldState;
+    public float cooldown;
+    private float timer;
 
     public Camera cam;
     public GameObject lights;
+
+    public AudioScript aScript;
 
     // Start is called before the first frame update
     void Start()
@@ -18,20 +22,28 @@ public class StateManager : MonoBehaviour
         worldState = 1;
         cam.backgroundColor = Color.white;
         lights.SetActive(false);
+
+        timer = cooldown;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        timer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Space) && timer <= 0)
         {
             // Flip World
             SwitchWorlds();
+            timer = cooldown;
         }
     }
 
     public void SwitchWorlds()
     {
+        aScript.SwitchTracks();
+        aScript.PlayPhaseSwitch();
+
         if (worldState == 0)
         {
             // Switch to light

@@ -24,6 +24,8 @@ public class Bullet : MonoBehaviour
     private const string LIGHT_BULLET_TRAVEL = "light_bullet_travel";
 
     public bool initate_finish = false;
+
+    public AudioScript aScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +82,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // Kill Player
+            aScript.PlayPlayerHit();
         }
         // if hits light enemy
         else if (collision.gameObject.tag == "LightEnemy")
@@ -88,6 +91,7 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "DarkEnemy")
             {
                 // kill
+                aScript.PlayObjectHit();
                 Destroy(collision.gameObject);
             }
         }
@@ -98,10 +102,12 @@ public class Bullet : MonoBehaviour
             if (this.gameObject.tag == "LightEnemy")
             {
                 // kill
+                aScript.PlayObjectHit();
                 Destroy(collision.gameObject);
             }
         }
 
+        aScript.PlayObjectDestroyed();
         Destroy(this.gameObject);
     }
 
