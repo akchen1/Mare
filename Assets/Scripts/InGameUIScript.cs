@@ -119,7 +119,7 @@ public class InGameUIScript : MonoBehaviour
 
         if (alive)
         {
-            score += Time.deltaTime;
+            score += Time.deltaTime * scale;
         }
         
         if (fadeIn)
@@ -140,8 +140,6 @@ public class InGameUIScript : MonoBehaviour
         {
             scale = 0;
         }
-
-        score += Time.deltaTime * scale;
 
         scoreText.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
         finalScore.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
@@ -206,8 +204,9 @@ public class InGameUIScript : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void Reset()
+    public void ResetLevel()
     {
+        print("hi");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
