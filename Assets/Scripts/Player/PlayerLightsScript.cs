@@ -18,11 +18,11 @@ public class PlayerLightsScript : MonoBehaviour
     {
         if (GetComponent<SpriteRenderer>().sprite.name.Contains("left"))
         {
-            LeftLight();
+            RightLight();
         }
         else if (GetComponent<SpriteRenderer>().sprite.name.Contains("right"))
         {
-            RightLight();
+            LeftLight();
         }
         else
         {
