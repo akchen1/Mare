@@ -7,26 +7,31 @@ public class PlayerLightsScript : MonoBehaviour
     public GameObject left;
     public GameObject right;
 
+    private bool done;
     // Start is called before the first frame update
     void Start()
     {
-        
+        done = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<SpriteRenderer>().sprite.name.Contains("left"))
+        if (!done)
         {
-            RightLight();
-        }
-        else if (GetComponent<SpriteRenderer>().sprite.name.Contains("right"))
-        {
-            LeftLight();
-        }
-        else
-        {
-            BothLight();
+            if (GetComponent<SpriteRenderer>().sprite.name.Contains("left"))
+            {
+                RightLight();
+            }
+            else if (GetComponent<SpriteRenderer>().sprite.name.Contains("right"))
+            {
+                LeftLight();
+            }
+            else
+            {
+                BothLight();
+            }
         }
     }
 
@@ -46,5 +51,12 @@ public class PlayerLightsScript : MonoBehaviour
     {
         left.SetActive(true);
         right.SetActive(true);
+    }
+
+    public void NoLight()
+    {
+        left.SetActive(false);
+        right.SetActive(false);
+        done = true;
     }
 }

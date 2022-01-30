@@ -7,11 +7,11 @@ public class AudioScript : MonoBehaviour
 {
     public AudioClip phase_switch;
     public AudioClip shoot;
-    public AudioClip object_destroyed;
-    public AudioClip object_hit;
+    public AudioClip enemy_hit;
     public AudioClip player_hit;
     public AudioClip light_theme;
     public AudioClip dark_theme;
+    public AudioClip game_over;
 
     public AudioSource effects;
     public AudioSource music;
@@ -50,14 +50,9 @@ public class AudioScript : MonoBehaviour
         effects.PlayOneShot(shoot);
     }
 
-    public void PlayObjectDestroyed()
+    public void PlayEnemyHit()
     {
-        effects.PlayOneShot(object_destroyed);
-    }
-
-    public void PlayObjectHit()
-    {
-        effects.PlayOneShot(object_hit);
+        effects.PlayOneShot(enemy_hit);
     }
 
     public void PlayPlayerHit()
@@ -79,6 +74,12 @@ public class AudioScript : MonoBehaviour
         }
 
         music.time = trackTime;
+        music.Play();
+    }
+
+    public void PlayGameOver()
+    {
+        music.clip = game_over;
         music.Play();
     }
 }
