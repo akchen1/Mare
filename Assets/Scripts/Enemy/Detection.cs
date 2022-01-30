@@ -23,11 +23,12 @@ public class Detection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print(collision.gameObject.name);
         if (collision.gameObject.name == "Player")
         {
 
             RaycastHit2D hit = Physics2D.Linecast(dad.transform.position, player.transform.position);
-            if (hit.collider != null && hit.collider.name == "Player")
+            if (hit.collider != null && (hit.collider.name == "Player" || hit.collider.name == "Enemy"))
             {
                 dad.setSpeed(0);
 
@@ -35,14 +36,14 @@ public class Detection : MonoBehaviour
             
         }
     }
-
+    
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
 
             RaycastHit2D hit = Physics2D.Linecast(dad.transform.position, player.transform.position);
-            if (hit.collider != null && hit.collider.name == "Player")
+            if (hit.collider != null && (hit.collider.name == "Player" || hit.collider.name == "Enemy"))
             {
                 dad.setSpeed(0);
                 dad.inRange = true;

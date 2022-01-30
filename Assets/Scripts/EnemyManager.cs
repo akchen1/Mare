@@ -46,12 +46,14 @@ public class EnemyManager : MonoBehaviour
             {
 
                 obj.GetComponent<EnemyController>().SetType("DarkEnemy");
+                obj.layer = 9;
 
                 AstarPath.active.Scan();
                 return;
             }
 
             obj.GetComponent<EnemyController>().SetType("LightEnemy");
+            obj.layer = 8;
 
             AstarPath.active.Scan();
         }
@@ -68,7 +70,11 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to normal movement and stuff
-                list[i].GetComponent<EnemyController>().Unfreeze();
+                try
+                {
+                    list[i].GetComponent<EnemyController>().Unfreeze();
+
+                } catch { }
             }
         }
     }
@@ -83,7 +89,10 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to normal movement and stuff
-                list[i].GetComponent<EnemyController>().Unfreeze();
+                try
+                {
+                    list[i].GetComponent<EnemyController>().Unfreeze();
+                } catch { }
             }
         }
     }
@@ -98,7 +107,10 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to not move and stuff
-                list[i].GetComponent<EnemyController>().Freeze();
+                try
+                {
+                    list[i].GetComponent<EnemyController>().Freeze();
+                } catch { }
             }
         }
     }
@@ -113,7 +125,13 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < list.Length; i++)
             {
                 // Set enemy to not move and stuff
-                list[i].GetComponent<EnemyController>().Freeze();
+                try
+                {
+                    list[i].GetComponent<EnemyController>().Freeze();
+                } catch
+                {
+
+                }
             }
         }
     }
