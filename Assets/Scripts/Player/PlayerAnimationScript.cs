@@ -100,15 +100,28 @@ public class PlayerAnimationScript : MonoBehaviour
         {
             animator.SetBool("stop", true);
             // No Movement
-            //if (StateManager.worldState == 0)
-            //{
-                
-            //    ChangeAnimationState(PLAYER_DARK_IDLE);
-            //}
-            //else
-            //{
-            //    ChangeAnimationState(PLAYER_LIGHT_IDLE);
-            //}
+            if (StateManager.worldState == 0)
+            {
+                if (currentAnimation == PLAYER_LIGHT_IDLE)
+                    ChangeAnimationState(PLAYER_DARK_IDLE);
+                else if (currentAnimation == PLAYER_LIGHT_IDLE_BACK)
+                    ChangeAnimationState(PLAYER_DARK_IDLE_BACK);
+                else if (currentAnimation == PLAYER_LIGHT_IDLE_LEFT)
+                    ChangeAnimationState(PLAYER_DARK_IDLE_LEFT);
+                else if (currentAnimation == PLAYER_LIGHT_IDLE_RIGHT)
+                    ChangeAnimationState(PLAYER_DARK_IDLE_RIGHT);
+            }
+            else
+            {
+                if (currentAnimation == PLAYER_DARK_IDLE)
+                    ChangeAnimationState(PLAYER_LIGHT_IDLE);
+                else if (currentAnimation == PLAYER_DARK_IDLE_BACK)
+                    ChangeAnimationState(PLAYER_LIGHT_IDLE_BACK);
+                else if (currentAnimation == PLAYER_DARK_IDLE_LEFT)
+                    ChangeAnimationState(PLAYER_LIGHT_IDLE_LEFT);
+                else if (currentAnimation == PLAYER_DARK_IDLE_RIGHT)
+                    ChangeAnimationState(PLAYER_LIGHT_IDLE_RIGHT);
+            }
         } else
         {
             animator.SetBool("stop", false);
