@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     // Rigidbody variable used to create constant horizontal movement
     Rigidbody2D rbody;
+    Animator animator;
 
     // Direction to shoot
     Vector3 shootDirection;
@@ -16,30 +17,63 @@ public class Bullet : MonoBehaviour
     // Default Damage for now, this needs to be changed from ProjectileShootingScript.
     public int damage;
 
-    public AudioScript aScript;
+    private string currentAnimation;
+    private const string DARK_BULLET_INITIATE = "dark_bullet_initiate";
+    private const string DARK_BULLET_TRAVEL = "dark_bullet_travel";
+    private const string LIGHT_BULLET_INITIATE = "light_bullet_initiate";
+    private const string LIGHT_BULLET_TRAVEL = "light_bullet_travel";
 
+    public bool initate_finish = false;
+
+    public AudioScript aScript;
     // Start is called before the first frame update
     void Start()
     {
         // Find rigidbody
         rbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
-        
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        float playerHeight = player.GetComponent<PolygonCollider2D>().bounds.size.y / 2f;
         Transform playerLocation = player.transform;
         shootDirection = new Vector3(playerLocation.position.x, playerLocation.position.y, 0) - transform.position;
-        
+
         shootDirection.Normalize();
 
-        // Set velocity to shoot bullet
-        rbody.velocity = shootDirection * bulletSpeed;
+        if (shootDirection != Vector3.zero)
+        {
+            float angle = -(Mathf.Atan2(shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg) -90;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+        
+
+        if (gameObject.tag == "DarkEnemy")
+        {
+            ChangeAnimationState(LIGHT_BULLET_INITIATE);
+        } else
+        {
+            ChangeAnimationState(DARK_BULLET_INITIATE);
+        }
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (initate_finish)
+        {
+            // Set velocity to shoot bullet
+            rbody.velocity = shootDirection * bulletSpeed;
+            if (gameObject.tag == "DarkEnemy")
+            {
+                ChangeAnimationState(LIGHT_BULLET_TRAVEL);
+            }
+            else
+            {
+                ChangeAnimationState(DARK_BULLET_TRAVEL);
+            }
+            initate_finish = false;
+        }
     }
 
     // This is a built in unity function that checks when the object collides with another object
@@ -97,5 +131,15 @@ public class Bullet : MonoBehaviour
     public void setDamage(int dam)
     {
         damage = dam;
+    }
+
+    public void ChangeAnimationState(string newState)
+    {
+        if (currentAnimation == newState)
+        {
+            return;
+        }
+        animator.Play(newState);
+        currentAnimation = newState;
     }
 }
