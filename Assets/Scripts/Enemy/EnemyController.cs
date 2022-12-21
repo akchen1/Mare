@@ -35,7 +35,6 @@ public class EnemyController : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         coll = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
-        Physics2D.IgnoreLayerCollision(9, 8);
     }
 
     // Update is called once per frame
@@ -104,8 +103,8 @@ public class EnemyController : MonoBehaviour
         {
             gameObject.tag = "LightEnemy";
             ChangeAnimationState(LIGHT_ENEMY_MOVE);
-
-            if (StateManager.worldState == 0)
+            gameObject.layer = 8;
+            if (StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK)
             {
                 Freeze();
             }
@@ -118,8 +117,8 @@ public class EnemyController : MonoBehaviour
         {
             gameObject.tag = "DarkEnemy";
             ChangeAnimationState(DARK_ENEMY_MOVE);
-
-            if (StateManager.worldState == 1)
+            gameObject.layer = 9;
+            if (StateManager.WORLDSTATE == Constants.WORLDSTATE.WHITE)
             {
                 Freeze();
             }

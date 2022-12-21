@@ -29,7 +29,7 @@ public class TowerController : MonoBehaviour
         {
             return;
         }
-        if (StateManager.worldState == 0)
+        if (StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK)
         {
             ChangeAnimationState(DARK_TOWER);
 

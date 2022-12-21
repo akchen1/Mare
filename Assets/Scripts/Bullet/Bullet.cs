@@ -92,40 +92,18 @@ public class Bullet : MonoBehaviour
 
             aScript.PlayGameOver();
             Destroy(this.gameObject);
+            return;
         }
         // if hits light enemy
-        else if (collision.gameObject.tag == "LightEnemy")
+        bool enemyHit = (collision.gameObject.tag == "LightEnemy" && gameObject.tag == "DarkEnemy") || (collision.gameObject.tag == "DarkEnemy" && gameObject.tag == "LightEnemy");
+        if (enemyHit)
         {
-            // check if opposite side
-            if (this.gameObject.tag == "DarkEnemy")
-            {
-                // kill
-                aScript.PlayEnemyHit();
-                uiScript.score += 5f * uiScript.scale;
-                //Destroy(collision.gameObject);
-                collision.gameObject.GetComponent<EnemyController>().isDead = true;
-                Destroy(this.gameObject);
-                //Destroy(collision.gameObject);
-            }
+            // kill
+            aScript.PlayEnemyHit();
+            ScoreController.UpdateScore(5f);
+            collision.gameObject.GetComponent<EnemyController>().isDead = true;
         }
-        // if hits dark enemy
-        else if (collision.gameObject.tag == "DarkEnemy")
-        {
-            // check if opposite side
-            if (this.gameObject.tag == "LightEnemy")
-            {
-                // kill
-                aScript.PlayEnemyHit();
-                uiScript.score += 5f * uiScript.scale;
-                //Destroy(collision.gameObject);
-                collision.gameObject.GetComponent<EnemyController>().isDead = true;
-                Destroy(this.gameObject);
-                //Destroy(collision.gameObject);
-            }
-        } else
-        {
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
 
         
     }

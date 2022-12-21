@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GenerateBounds : MonoBehaviour
 {
@@ -16,15 +17,15 @@ public class GenerateBounds : MonoBehaviour
             {
                 coll = gameObject.AddComponent<PolygonCollider2D>();
             }
-            Vector2[] points = coll.points;
+            List<Vector2> points = coll.points.ToList();
             EdgeCollider2D edge = GetComponent<EdgeCollider2D>();
             if (edge == null)
             {
                 edge = gameObject.AddComponent<EdgeCollider2D>();
             }
-            edge.points = points;
+            points.Add(points[0]);
+            edge.points = points.ToArray();
             Destroy(coll);
-            Debug.Log(transform.localScale);
             return;
         }
         if (gameObject.name == "Circle")
@@ -32,15 +33,5 @@ public class GenerateBounds : MonoBehaviour
             Transform parent = GetComponentInParent<Transform>();
             gameObject.transform.localScale = parent.localScale * scale;
         }
-    }
-
-    private void Start()
-    {
-        
-        //if (gameObject.name == "Circle")
-        //{
-        //    Transform parent = GetComponentInParent<Transform>();
-        //    gameObject.transform.localScale = parent.localScale * scale;
-        //}
     }
 }

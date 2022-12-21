@@ -6,6 +6,13 @@ using UnityEngine;
 public class PlayerInputScript : MonoBehaviour
 {
     private MovementScript mScript;
+    private PlayerInputActions playerInput;
+
+
+    private void Awake()
+    {
+        playerInput = new PlayerInputActions();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -13,39 +20,19 @@ public class PlayerInputScript : MonoBehaviour
         mScript = GetComponent<MovementScript>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            // Move Up
-            mScript.MoveNorth();
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            // Move Down
-            mScript.MoveSouth();
-        }
-        else
-        {
-            // Stop
-            mScript.StopLatitude();
-        }
+        playerInput.Enable();
+    }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            // Move Left
-            mScript.MoveWest();
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            // Move Right
-            mScript.MoveEast();
-        }
-        else
-        {
-            // Stop
-            mScript.StopLongitude();
-        }
+    private void OnDisable()
+    {
+        playerInput.Disable();
+    }
+
+    private void FixedUpdate()
+    {
+        mScript.Move(playerInput.Player.Movement.ReadValue<Vector2>());
+
     }
 }

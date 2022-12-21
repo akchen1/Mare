@@ -19,27 +19,30 @@ public class InGameUIScript : MonoBehaviour
     private float timer;
 
     public GameObject scoreText;
-    public float score;
 
-    public static bool alive;
+    //public static bool alive;
 
     public GameObject reset;
     public GameObject menu;
     public GameObject finalScore;
+    public GameObject highScore;
 
     private bool fadeIn;
 
-    Transform player;
-    public float scale;
-    EdgeCollider2D bounds;
-    float boundsRadius;
+
+    #if (UNITY_IOS || UNITY_ANDROID)
+        [Header("Mobile")]
+        [SerializeField] private Image SwitchWorldsButtonLight;
+        [SerializeField] private Image SwitchWorldsButtonDark;
+        [SerializeField] private GameObject MobileUI;
+    #endif
 
 
     // Start is called before the first frame update
     void Start()
     {
         timer = 0f;
-        alive = true;
+        //alive = true;
         fadeIn = false;
         cd1.GetComponent<Image>().sprite = filled;
         cd2.GetComponent<Image>().sprite = filled;
@@ -53,10 +56,13 @@ public class InGameUIScript : MonoBehaviour
         menu.GetComponent<TextMeshProUGUI>().alpha = 0f;
         menu.GetComponent<Button>().interactable = false;
         finalScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
+        highScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        bounds = GameObject.FindGameObjectWithTag("Bounds").GetComponent<EdgeCollider2D>();
-        boundsRadius = bounds.bounds.extents.x;
+
+
+        #if (UNITY_IOS || UNITY_ANDROID)
+        MobileUI.SetActive(true);
+        #endif
 
     }
 
@@ -68,6 +74,45 @@ public class InGameUIScript : MonoBehaviour
             timer += Time.deltaTime;
         }
 
+        AbilityIconGraphic();      
+
+        if (StateManager.PLAYERSTATE == Constants.PLAYERSTATE.ALIVE)
+        {
+            UpdateScore();
+        }
+        
+        if (fadeIn)
+        {
+            reset.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(reset.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+            menu.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(menu.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+            finalScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+            highScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
+
+        }
+
+    }
+
+    private void UpdateScore()
+    {
+        scoreText.GetComponent<TextMeshProUGUI>().text = ((int)ScoreController.score).ToString();
+        finalScore.GetComponent<TextMeshProUGUI>().text = "  Final Score" + System.Environment.NewLine + ((int)ScoreController.score).ToString();
+        highScore.GetComponent<TextMeshProUGUI>().text = "  Personal Best" + System.Environment.NewLine + ((int)ScoreController.GetHighScore()).ToString();
+    }
+
+    public void Cast()
+    {
+        timer = 0f;
+        Swap();
+    }
+
+    private void AbilityIconGraphic()
+    {
+        #if (UNITY_IOS || UNITY_ANDROID)
+            float progress = timer / 5f;
+        
+            SwitchWorldsButtonDark.fillAmount = StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK ? progress : 1f - progress;
+            SwitchWorldsButtonLight.fillAmount = StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK ? 1f - progress : progress;
+        #endif
         if (timer >= 5f)
         {
             cd1.GetComponent<Image>().sprite = filled;
@@ -116,44 +161,11 @@ public class InGameUIScript : MonoBehaviour
             cd4.GetComponent<Image>().sprite = empty;
             cd5.GetComponent<Image>().sprite = empty;
         }
-
-        if (alive)
-        {
-            score += Time.deltaTime * scale;
-        }
-        
-        if (fadeIn)
-        {
-            reset.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(reset.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
-            menu.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(menu.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
-            finalScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
-        }
-
-        float radius = Mathf.Sqrt(player.position.x * player.position.x + player.position.y * player.position.y);
-        if (radius/boundsRadius <= 0.4)
-        {
-            scale = 1;
-        } else if (radius/boundsRadius <= 0.8)
-        {
-            scale = 0.5f;
-        } else
-        {
-            scale = 0;
-        }
-
-        scoreText.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
-        finalScore.GetComponent<TextMeshProUGUI>().text = ((int)score).ToString();
-    }
-
-    public void Cast()
-    {
-        timer = 0f;
-        Swap();
     }
 
     public void Swap()
     {
-        if (StateManager.worldState == 0)
+        if (StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK)
         {
             cd1.GetComponent<Image>().color = new Color(255, 255, 255);
             cd2.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -163,7 +175,7 @@ public class InGameUIScript : MonoBehaviour
 
             scoreText.GetComponent<TextMeshProUGUI>().color = new Color(255, 255, 255);
         }
-        else if (StateManager.worldState == 1)
+        else if (StateManager.WORLDSTATE == Constants.WORLDSTATE.WHITE)
         {
             cd1.GetComponent<Image>().color = new Color(0, 0, 0);
             cd2.GetComponent<Image>().color = new Color(0, 0, 0);
@@ -184,6 +196,10 @@ public class InGameUIScript : MonoBehaviour
         cd5.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
 
         scoreText.GetComponent<TextMeshProUGUI>().CrossFadeAlpha(0f, 1f, false);
+
+        #if (UNITY_IOS || UNITY_ANDROID)
+            MobileUI.SetActive(false);
+        #endif
     }
 
     public void Show()
@@ -192,6 +208,8 @@ public class InGameUIScript : MonoBehaviour
         menu.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
 
         finalScore.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
+        highScore.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
+
 
         fadeIn = true;
 
@@ -206,7 +224,6 @@ public class InGameUIScript : MonoBehaviour
 
     public void ResetLevel()
     {
-        print("hi");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
