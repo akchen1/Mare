@@ -85,7 +85,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            // Kill Player
+            //Kill Player
             aScript.PlayPlayerHit();
 
             collision.gameObject.GetComponent<PlayerAnimationScript>().Dead();
@@ -102,12 +102,31 @@ public class Bullet : MonoBehaviour
             aScript.PlayEnemyHit();
             ScoreController.UpdateScore(5f);
             collision.gameObject.GetComponent<EnemyController>().isDead = true;
+            Destroy(this.gameObject);
+            return;
         }
-        Destroy(this.gameObject);
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
+        {
+            Destroy(this.gameObject);
+        }
         
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //bool enemyHit = (collision.gameObject.tag == "LightEnemy" && gameObject.tag == "DarkEnemy") || 
+        //    (collision.gameObject.tag == "DarkEnemy" && gameObject.tag == "LightEnemy");
+        //if (enemyHit)
+        //{
+        //    // kill
+        //    aScript.PlayEnemyHit();
+        //    ScoreController.UpdateScore(5f);
+        //    collision.gameObject.GetComponent<EnemyController>().isDead = true;
+        //Destroy(this.gameObject);
+        //}
+    }
 
 
     // This is also a built in unity function that checks if the object is no longer visible by any camera

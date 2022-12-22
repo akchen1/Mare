@@ -102,7 +102,7 @@ public class InGameUIScript : MonoBehaviour
 
     private void UpdateScore()
     {
-        scoreText.GetComponent<TextMeshProUGUI>().text = ((int)ScoreController.score).ToString();
+        scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + ((int)ScoreController.score).ToString();
         finalScore.GetComponent<TextMeshProUGUI>().text = "  Final Score" + System.Environment.NewLine + ((int)ScoreController.score).ToString();
         highScore.GetComponent<TextMeshProUGUI>().text = "  Personal Best" + System.Environment.NewLine + ((int)ScoreController.GetHighScore()).ToString();
 

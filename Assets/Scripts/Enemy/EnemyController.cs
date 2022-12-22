@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Pathfinding.RVO;
 
 public class EnemyController : MonoBehaviour
 {
     public AIPath ai;
+    public RVOController rvoController;
     public Rigidbody2D rbody;
     public CircleCollider2D coll;
     public bool inRange;
@@ -34,7 +36,8 @@ public class EnemyController : MonoBehaviour
         shoot = GetComponent<Shoot>();
         rbody = GetComponent<Rigidbody2D>();
         coll = GetComponent<CircleCollider2D>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
+        rvoController = GetComponent<RVOController>();
     }
 
     // Update is called once per frame
@@ -104,6 +107,8 @@ public class EnemyController : MonoBehaviour
             gameObject.tag = "LightEnemy";
             ChangeAnimationState(LIGHT_ENEMY_MOVE);
             gameObject.layer = 8;
+            rvoController.layer = RVOLayer.Layer2;
+            rvoController.collidesWith = RVOLayer.Layer2;
             if (StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK)
             {
                 Freeze();
@@ -118,6 +123,8 @@ public class EnemyController : MonoBehaviour
             gameObject.tag = "DarkEnemy";
             ChangeAnimationState(DARK_ENEMY_MOVE);
             gameObject.layer = 9;
+            rvoController.layer = RVOLayer.Layer3;
+            rvoController.collidesWith = RVOLayer.Layer3;
             if (StateManager.WORLDSTATE == Constants.WORLDSTATE.WHITE)
             {
                 Freeze();
@@ -155,8 +162,8 @@ public class EnemyController : MonoBehaviour
         shoot.enabled = true;
         ai.maxSpeed = 1;
         ai.canMove = true;
-        rbody.bodyType = RigidbodyType2D.Dynamic;
-        aiDest.target = GameObject.FindGameObjectWithTag("Player").transform;
+        rbody.bodyType = RigidbodyType2D.Kinematic;
+        aiDest.target = StateManager.Player.transform;
         //gameObject.layer = 7;
     }
 

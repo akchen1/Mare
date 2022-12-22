@@ -7,6 +7,8 @@ public class StateManager : MonoBehaviour
 {
     public EnemyManager eScript;
 
+    public static GameObject Player; // not supposed to be here but w/e
+
     // 0 = dark, 1 = light
     public static Constants.WORLDSTATE WORLDSTATE;
     //public static int worldState;
@@ -25,6 +27,7 @@ public class StateManager : MonoBehaviour
     private void Awake()
     {
         inputActions = new PlayerInputActions();
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Start is called before the first frame update
@@ -76,6 +79,7 @@ public class StateManager : MonoBehaviour
             WORLDSTATE = Constants.WORLDSTATE.WHITE;
             cam.backgroundColor = Color.white;
             lights.SetActive(false);
+            Player.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("LightEnemy");
         }
 
         else if (WORLDSTATE == Constants.WORLDSTATE.WHITE)
@@ -84,10 +88,12 @@ public class StateManager : MonoBehaviour
             WORLDSTATE = Constants.WORLDSTATE.BLACK;
             cam.backgroundColor = Color.black;
             lights.SetActive(true);
+            Player.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("DarkEnemy");
+
         }
         eScript.ActivateEnemies();
         eScript.DeactivateEnemies();
 
-        AstarPath.active.Scan();
+        //AstarPath.active.Scan();
     }
 }
