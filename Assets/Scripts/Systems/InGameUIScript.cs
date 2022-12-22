@@ -26,6 +26,7 @@ public class InGameUIScript : MonoBehaviour
     public GameObject menu;
     public GameObject finalScore;
     public GameObject highScore;
+    public GameObject scoreGradient;
 
     private bool fadeIn;
 
@@ -57,10 +58,13 @@ public class InGameUIScript : MonoBehaviour
         menu.GetComponent<Button>().interactable = false;
         finalScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
         highScore.GetComponent<TextMeshProUGUI>().alpha = 0f;
+        Color color = Color.white;
+        color.a = 0;
+        scoreGradient.GetComponent<Image>().color = color;
 
 
 
-        #if (UNITY_IOS || UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_ANDROID)
         MobileUI.SetActive(true);
         #endif
 
@@ -88,6 +92,10 @@ public class InGameUIScript : MonoBehaviour
             finalScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
             highScore.GetComponent<TextMeshProUGUI>().alpha = Mathf.MoveTowards(finalScore.GetComponent<TextMeshProUGUI>().alpha, 1f, 0.25f * Time.deltaTime);
 
+            Color color = Color.white;
+            color.a = Mathf.MoveTowards(scoreGradient.GetComponent<Image>().color.a, 1f, 0.1f * Time.deltaTime);
+            scoreGradient.GetComponent<Image>().color = color;
+
         }
 
     }
@@ -97,6 +105,7 @@ public class InGameUIScript : MonoBehaviour
         scoreText.GetComponent<TextMeshProUGUI>().text = ((int)ScoreController.score).ToString();
         finalScore.GetComponent<TextMeshProUGUI>().text = "  Final Score" + System.Environment.NewLine + ((int)ScoreController.score).ToString();
         highScore.GetComponent<TextMeshProUGUI>().text = "  Personal Best" + System.Environment.NewLine + ((int)ScoreController.GetHighScore()).ToString();
+
     }
 
     public void Cast()
@@ -107,12 +116,14 @@ public class InGameUIScript : MonoBehaviour
 
     private void AbilityIconGraphic()
     {
-        #if (UNITY_IOS || UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_ANDROID)
+
             float progress = timer / 5f;
-        
-            SwitchWorldsButtonDark.fillAmount = StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK ? progress : 1f - progress;
-            SwitchWorldsButtonLight.fillAmount = StateManager.WORLDSTATE == Constants.WORLDSTATE.BLACK ? 1f - progress : progress;
-        #endif
+            SwitchWorldsButtonDark.fillClockwise = StateManager.WORLDSTATE == Constants.WORLDSTATE.WHITE;
+            SwitchWorldsButtonDark.fillAmount = StateManager.WORLDSTATE == Constants.WORLDSTATE.WHITE ? progress : 1f - progress;
+
+
+#endif
         if (timer >= 5f)
         {
             cd1.GetComponent<Image>().sprite = filled;
@@ -210,6 +221,10 @@ public class InGameUIScript : MonoBehaviour
         finalScore.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
         highScore.GetComponent<TextMeshProUGUI>().alpha = 0.1f;
 
+
+        Color color = Color.white;
+        color.a = 0.1f;
+        scoreGradient.GetComponent<Image>().color = color;
 
         fadeIn = true;
 
