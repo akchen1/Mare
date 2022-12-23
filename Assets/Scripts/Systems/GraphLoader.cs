@@ -26,7 +26,6 @@ public class GraphLoader : MonoBehaviour
         StartCoroutine(FetchFile(Application.streamingAssetsPath + FilePath));
         #endif
     }
-
     private IEnumerator FetchFile(string filePath)
     {
         using (UnityWebRequest www = UnityWebRequest.Get(filePath))

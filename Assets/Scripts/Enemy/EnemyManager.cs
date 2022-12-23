@@ -16,6 +16,10 @@ public class EnemyManager : MonoBehaviour
 
     private int numSpawn;
 
+
+    private List<GameObject> darkEnemies;
+    private List<GameObject> lightEnemies;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +28,11 @@ public class EnemyManager : MonoBehaviour
         bounds1 = bounds[0].position;
         bounds2 = bounds[1].position;
         numSpawn = 2;
-        StartCoroutine(Spawn());
+
+        darkEnemies = new List<GameObject>();
+        lightEnemies = new List<GameObject>();
+
+        StartCoroutine(WeightedSpawn());
         StartCoroutine(DifficultyCurve());
         StartCoroutine(DestroyAllEnemies());
     }
@@ -57,6 +65,51 @@ public class EnemyManager : MonoBehaviour
         }
         
     }
+
+    public IEnumerator WeightedSpawn()
+    {
+        while (StateManager.PLAYERSTATE == Constants.PLAYERSTATE.ALIVE)
+        {
+            for (int i = 0; i < (int)Random.Range(1, numSpawn); i++)
+            {
+                Vector3 spawnPos = new Vector3(Random.Range(bounds1.x, bounds2.x), Random.Range(bounds2.y, bounds1.y), 0);
+
+                GameObject obj = Instantiate(enemy, spawnPos, Quaternion.identity);
+                obj.GetComponent<Shoot>().aScript = aScript;
+
+
+                float numLightEnemy = lightEnemies.Count;
+                float numDarkEnemy = darkEnemies.Count;
+                float totalEnemy = numLightEnemy + numDarkEnemy;
+                float lightEnemyWeight = 0.5f + (numDarkEnemy - numLightEnemy) / totalEnemy;
+                float darkEnemyWeight = 0.5f + (numLightEnemy - numDarkEnemy) / totalEnemy;
+                string enemyToSpawn = WeightedRandomChoice(lightEnemyWeight, darkEnemyWeight);
+
+                obj.GetComponent<EnemyController>().SetType(enemyToSpawn);
+                List<GameObject> enemyList = enemyToSpawn == "DarkEnemy" ? darkEnemies : lightEnemies;
+                enemyList.Add(obj);
+            }
+            yield return new WaitForSeconds(spawnTimer);
+        }
+    }
+
+    private string WeightedRandomChoice(float lightEnemyWeight, float darkEnemyWeight)
+    {
+        // normalize the weights
+        float totalWeight = lightEnemyWeight + darkEnemyWeight;
+        lightEnemyWeight /= totalWeight;
+
+        // choose an index based on the normalized weights
+        float choice = Random.value;
+
+        if (choice < lightEnemyWeight)
+        {
+            return "LightEnemy";
+        }
+
+        return "DarkEnemy";
+    }
+
 
     public void ActivateEnemies()
     {
