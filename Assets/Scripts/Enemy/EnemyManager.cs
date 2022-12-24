@@ -29,6 +29,10 @@ public class EnemyManager : MonoBehaviour
         bounds2 = bounds[1].position;
         numSpawn = 2;
 
+        string ticks = System.DateTime.Now.Ticks.ToString();
+        ticks = ticks.Substring(ticks.Length - 6);
+        Random.InitState(int.Parse(ticks));
+
         darkEnemies = new List<GameObject>();
         lightEnemies = new List<GameObject>();
 

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayCount: 3
   coneAngle: 30
-  coneDistance: 5
+  coneDistance: 8
   layerMask:
     serializedVersion: 2
     m_Bits: 64

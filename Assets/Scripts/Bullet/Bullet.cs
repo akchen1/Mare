@@ -80,8 +80,8 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    // This is a built in unity function that checks when the object collides with another object
-    private void OnCollisionEnter2D(Collision2D collision)
+   
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -110,22 +110,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //bool enemyHit = (collision.gameObject.tag == "LightEnemy" && gameObject.tag == "DarkEnemy") || 
-        //    (collision.gameObject.tag == "DarkEnemy" && gameObject.tag == "LightEnemy");
-        //if (enemyHit)
-        //{
-        //    // kill
-        //    aScript.PlayEnemyHit();
-        //    ScoreController.UpdateScore(5f);
-        //    collision.gameObject.GetComponent<EnemyController>().isDead = true;
-        //Destroy(this.gameObject);
-        //}
     }
 
 
