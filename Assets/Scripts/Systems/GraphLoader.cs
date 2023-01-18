@@ -15,15 +15,16 @@ public class GraphLoader : MonoBehaviour
 
     private void LoadGraph()
     {
-
-        #if UNITY_STANDALONE
-        byte[] file = File.ReadAllBytes(Application.streamingAssetsPath + FilePath);
+        string path = Application.streamingAssetsPath + FilePath;
+        path = path[0] == '/' ? path.Substring(1) : path;
+        #if (UNITY_STANDALONE)
+        byte[] file = File.ReadAllBytes(path);
         AstarPath.active.data.DeserializeGraphs(file);
         AstarPath.active.Scan();
-        #endif
+#endif
 
-        #if (UNITY_ANDROID || UNITY_IPHONE)
-        StartCoroutine(FetchFile(Application.streamingAssetsPath + FilePath));
+#if (UNITY_ANDROID || UNITY_IPHONE || UNITY_WEBGL)
+        StartCoroutine(FetchFile(path));
         #endif
     }
     private IEnumerator FetchFile(string filePath)
